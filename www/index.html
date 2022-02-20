@@ -1,0 +1,223 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Ionic lib -->
+    <script type="module" src="https://unpkg.com/@ionic/core@6.0.2//dist/ionic/ionic.esm.js"></script>
+    <!-- Ionic lib fallback for older browsers -->
+    <script nomodule src="https://unpkg.com/@ionic/core@6.0.2//dist/ionic/ionic.js"></script>
+    <!-- Ionic Styles-->
+    <link rel="stylesheet" href="https://unpkg.com/@ionic/core@latest/css/ionic.bundle.css" />
+
+    <script type="module">
+        import { toastController } from 'https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/index.esm.js';
+        window.toastController = toastController;
+
+        import { alertController } from 'https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/index.esm.js';
+        window.alertController = alertController;
+    </script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin="" />
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin=""></script>
+
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/app.js"></script>
+    <script src="js/library.js"></script>
+</head>
+
+<body>
+    <ion-app>
+        <ion-router>
+            <ion-route url="/distancias" component="pagina-distancia"></ion-route>
+            <ion-route url="/registro" component="pagina-registro"></ion-route>
+            <ion-route url="/agregar" component="agregar-envios"></ion-route>
+            <!-- <ion-route url="/local" component="pagina-local"></ion-route> -->
+            <ion-route url="/" component="pagina-login"></ion-route>
+        </ion-router>
+        <ion-nav root="pagina-login"></ion-nav>
+        <!-- pagina login -->
+        <ion-page class="ion-page" id="pagina-login">
+            <ion-header>
+                <ion-toolbar>
+                    <ion-title class="ion-text-center">Login</ion-title>
+                </ion-toolbar>
+            </ion-header>
+            <ion-content class="ion-padding">
+                <ion-item>
+                    <ion-label position="floating">Usuario</ion-label>
+                    <ion-input placeholder="Ingrese usuario" id="user"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="floating">Contraseña</ion-label>
+                    <ion-input type="password" placeholder="Ingrese contraseña" id="password"></ion-input>
+                </ion-item>
+                <ion-grid>
+                    <ion-row>
+                        <ion-col size="12">
+                            <ion-button expand="block" id="login">Login</ion-button>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col size="12">
+                            No tiene cuenta? <ion-router-link href="/registro">Registrarse aquí</ion-router-link>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+
+            </ion-content>
+            <ion-footer>
+                <ion-toolbar>
+                    <ion-title class="ion-text-center">Footer</ion-title>
+                </ion-toolbar>
+            </ion-footer>
+        </ion-page>
+        <!-- pagina registro -->
+        <ion-page class="ion-page" id="pagina-registro">
+            <ion-header>
+                <ion-toolbar>
+                    <ion-title class="ion-text-center">Registro</ion-title>
+                </ion-toolbar>
+            </ion-header>
+            <ion-content class="ion-padding">
+                <ion-item>
+                    <ion-label position="floating">Nombre</ion-label>
+                    <ion-input placeholder="Ingrese nombre" id="name"></ion-input>
+                </ion-item>
+
+                </ion-item>
+                <ion-item>
+                    <ion-label position="floating">contraseña</ion-label>
+                    <ion-input type="password" placeholder="Ingrese contraseña" id="password2"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="floating">Repetir contraseña</ion-label>
+                    <ion-input type="password" placeholder="Repetir contraseña" id="repassword"></ion-input>
+                </ion-item>
+                <ion-grid>
+                    <ion-row>
+                        <ion-col size="12">
+                            <ion-button color="primary" expand="block" id="registro">Registrarse</ion-button>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col size="12">
+                            Ya tiene cuenta? <ion-router-link href="/" class="underline">Ingresar aquí
+                            </ion-router-link>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-content>
+            <ion-footer>
+                <ion-toolbar>
+                    <ion-title class="ion-text-center">Footer</ion-title>
+                </ion-toolbar>
+            </ion-footer>
+        </ion-page>
+        <!-- pagina listado de locales de comidas -->
+        <ion-page class="ion-page" id="pagina-distancia">
+            <ion-header>
+                <ion-toolbar>
+                    <ion-title class="ion-text-center">Calcular Distancias</ion-title>
+                </ion-toolbar>
+            </ion-header>
+            <ion-content class="ion-padding">
+                <ion-label>Ciudad de Origen:</ion-label>
+                <ion-grid>
+
+                    <ion-row>
+                        <ion-col size="6">
+
+                            <ion-select id="ciudad_o" placeholder="Ciudades" expand="block">
+                            </ion-select>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid><br><br>
+                <ion-label>Seleccione destino:</ion-label>
+                <ion-grid>
+                    <ion-row>
+                        <ion-col size="6">
+
+                            <ion-select id="ciudad_d" placeholder="Ciudad" expand="block">
+
+                            </ion-select>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid><br><br>
+                <ion-row>
+                    <ion-col size="12">
+                        <ion-button color="primary" expand="block" id="calcular_distancias">Calcular Distancia
+                        </ion-button>
+                    </ion-col>
+                    <ion-row>
+                        <ion-col size="12">
+                            Ya ha decidido ? <ion-router-link href="/agregar" class="underline">Ingresar
+                                aquí
+                            </ion-router-link>
+                        </ion-col>
+                    </ion-row>
+                </ion-row>
+                <div id="map"></div>
+            </ion-content>
+        </ion-page>
+        <ion-page class="ion-page" id="agregar-envios">
+            <ion-header>
+                <ion-toolbar>
+                    <ion-title class="ion-text-center">Agregar Envios</ion-title>
+                </ion-toolbar>
+            </ion-header>
+            <ion-content class="ion-padding">
+                <ion-label>Ciudad de Origen:</ion-label>
+                <ion-grid>
+
+                    <ion-row>
+                        <ion-col size="6">
+
+                            <ion-select id="ciudad_o2" placeholder="Ciudad de Origen" expand="block">
+                                <ion-select-option selected value="">a</ion-select-option>
+                            </ion-select>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid><br>
+                <ion-label>Seleccione destino:</ion-label>
+                <ion-grid>
+                    <ion-row>
+                        <ion-col size="6">
+
+                            <ion-select id="ciudad_d2" placeholder="Ciudad destino" expand="block">
+                            </ion-select>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid><br>
+                <ion-grid>
+                    <ion-row>
+                        <ion-col size="6">
+
+                            <ion-select id="cat" placeholder="Categorias" expand="block">
+                            </ion-select>
+                        </ion-col>
+                    </ion-row>
+                    <ion-item>
+                        <ion-label>Seleccione el peso del paquete (EN GRAMOS):</ion-label><br>
+                        <ion-input id="peso" placeholder="Peso del paquete"></ion-input>
+                    </ion-item>
+                    <ion-row>
+                        <ion-col size="12">
+                            <ion-button color="primary" expand="block" id="agregar_envio">Agregar Envio
+                            </ion-button>
+                        </ion-col>
+
+                    </ion-row>
+
+            </ion-content>
+        </ion-page>
+    </ion-app>
+</body>
+
+</html>
